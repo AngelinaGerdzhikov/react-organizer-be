@@ -23,6 +23,7 @@ exports.create = (req, res) => {
 };
 
 // Get All Statuses from database
+// Get all Statuses from database that contain a substring in their title
 exports.findAll = (req, res) => {
   const title = req.query.title;
   const condition = title ? { title: { [Op.like]: `%${title}%` } } : null;
@@ -40,7 +41,7 @@ exports.findAll = (req, res) => {
 
 // Get a Status By Id from database
 exports.findOne = (req, res) => {
-  const { id } = req.params;
+  const id = req.params.id;
 
   Status.findByPk(id)
     .then(data => {
@@ -92,7 +93,6 @@ exports.delete = (req, res) => {
     where: { id: id }
   })
   .then(num => {
-    console.log(`NUM: `, num);
     const message = num === 1 ?
      'Status was deleted successfully.'
      : `Cannot delete Status with id=${id}.`;

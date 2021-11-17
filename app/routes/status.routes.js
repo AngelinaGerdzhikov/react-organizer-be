@@ -2,6 +2,7 @@ const statuses = require('../controllers/status.controller');
 const router = require('express').Router();
 
 module.exports = app => {
+  // Create a Status
   router.post('/', statuses.create);
 
   // Retrieve all Statuses

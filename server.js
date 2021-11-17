@@ -24,6 +24,7 @@ db.sequelize.sync();
 
 // Require routes
 require('./app/routes/status.routes')(app);
+require('./app/routes/task.routes')(app);
 
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
