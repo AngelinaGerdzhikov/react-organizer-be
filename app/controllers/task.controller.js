@@ -26,6 +26,7 @@ exports.findAllTasksByMonth = (req, res) => {
   const month = req.params.month;
 
   Task.findAll({ 
+    attributes: { exclude: ['status_id'] },
     where: 
       db.sequelize.and(
         db.sequelize.where(
@@ -35,7 +36,8 @@ exports.findAllTasksByMonth = (req, res) => {
         db.sequelize.where(
           db.sequelize.fn('MONTH', db.sequelize.col('due_date')), +month
         )
-      )
+      ),
+    include: [ { model: db.statuses, as: 'status' }]     
   })
   .then(data => res.send(data))
   .catch(err => {
@@ -51,9 +53,11 @@ exports.findAllTasksByWeek = (req, res) => {
   const week = req.params.week;
 
   Task.findAll({ 
+    attributes: { exclude: ['status_id'] },
     where: db.sequelize.where(
       db.sequelize.fn('YEARWEEK', db.sequelize.col('due_date')), `${year}${week}`
-    )
+    ),
+    include: [ { model: db.statuses, as: 'status' }]
   })
   .then(data => res.send(data))
   .catch(err => {
@@ -96,7 +100,6 @@ exports.create = (req, res) => {
   Status.findAll({ where: { title: { [Op.like]: `%TO_DO%` } }})
     .then(data => {
       const toDoStatusId = data[0].id;
-      console.log('Status: ', data[0].id);
       return toDoStatusId;
     })
     .then(toDostatusId => {
@@ -122,12 +125,12 @@ exports.update = (req, res) => {
   const id = req.params.id;
   const { title, description, due_date, status_id } = req.body; 
 
-  if (!req.body.title || req.body.title.length === 0) {
-    res.status(400).send({
-      message: "Status should have a title!",
-    });
-    return;
-  }
+  // if (!req.body.title || req.body.title.length === 0) {
+  //   res.status(400).send({
+  //     message: "Status should have a title!",
+  //   });
+  //   return;
+  // }
 
   Task.findByPk(id)
     .then(data => {
