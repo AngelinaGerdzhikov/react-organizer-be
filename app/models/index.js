@@ -1,6 +1,6 @@
 const Sequelize = require("sequelize");
 
-const dbConfig = require("../config/db.config");
+const dbConfig = require("../../config/db.config");
 
 Sequelize.DATE.prototype._stringify = function _stringify(date, options) {
   return this._applyTimezone(date, options).format('YYYY-MM-DD HH:mm:ss.SSS');
