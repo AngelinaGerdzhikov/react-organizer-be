@@ -17,5 +17,5 @@ module.exports = app => {
   // Delete a Status with id
   router.delete("/:id", statuses.delete);
 
-  app.use('/api/statuses', router);
+  app.use('/react-organizer/api/statuses', router);
 }

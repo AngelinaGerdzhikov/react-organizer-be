@@ -23,5 +23,5 @@ module.exports = app => {
   // Delete a Task with id
   router.delete("/:id", tasks.delete);
 
-  app.use('/api/tasks', router);
+  app.use('/react-organizer/api/tasks', router);
 };
